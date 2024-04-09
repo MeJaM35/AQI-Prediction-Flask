@@ -45,13 +45,4 @@ After running the app, open your browser and navigate to `http://localhost:5000`
 - `templates/`: Contains HTML templates for rendering pages.
 - `airquality.joblib`: The pre-trained machine learning model used for predictions.
 
-## Author
 
-**Satishkumar Murugan**
-
-This project is a demonstration of how machine learning can be applied in environmental science to predict air quality based on given parameters.
-
-Feel free to clone, modify, and use the code for your projects. If you find any bugs or have any suggestions for improvement, please feel free to submit an issue or pull request.
-```
-
-This README provides a basic overview of the project, including how to get started, use the application, and understand its structure. It also encourages collaboration and feedback, essential aspects of open-source projects.
