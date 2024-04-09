@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import joblib
+import requests
+
+AQI_KEY = "<your-openweather-api-key>"
+
 
 app = Flask(__name__)
 
@@ -15,12 +19,21 @@ def home():
 def predict():
     if request.method == 'POST':
         # Get the input data from the HTML form
-        pm25 = float(request.form['PM2.5'])
-        pm10 = float(request.form['PM10'])
-        o3 = float(request.form['O3'])
-        no2 = float(request.form['NO2'])
-        co = float(request.form['CO'])
-        so2 = float(request.form['SO2'])
+        lat = 19.75147980 # Gujarat's latitude
+        lon = 75.71388840  # Gujarat's longitude
+
+        url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={AQI_KEY}"
+        response = requests.get(url)
+        data = response.json()
+        pollutants = data['list'][0]['components']
+        pm25 = pollutants['pm2_5']
+        pm10 = pollutants['pm10']
+        so2 = pollutants['so2']
+        no2 = pollutants['no2']
+        co = pollutants['co']
+        o3 = pollutants['o3']
+
+
 
         # Create a sample data array for prediction
         sample = [[pm25, pm10, o3, no2, co, so2]]
@@ -50,7 +63,7 @@ def predict():
             
 
         # You can return the prediction to the user
-        return render_template('results.html', prediction=prediction,result=result,conclusion=conclusion)
+        return render_template('results.html', prediction=prediction/4,result=result,conclusion=conclusion)
 
 if __name__ == '__main__':
     app.run(debug=True)
